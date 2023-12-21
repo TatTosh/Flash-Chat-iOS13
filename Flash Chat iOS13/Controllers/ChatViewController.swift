@@ -15,9 +15,9 @@ class ChatViewController: UIViewController {
 	@IBOutlet weak var messageTextfield: UITextField!
 	
 	var messages: [Message] = [
-		Message(sender: "test@gmail.com", body: "Test chat1"),
-		Message(sender: "test1@gmail.com", body: "Test chat2"),
-		Message(sender: "test@gmail.com", body: "Me again..")
+		Message(sender: "test@gmail.com", body: "Hey"),
+		Message(sender: "test1@gmail.com", body: "Hello"),
+		Message(sender: "test@gmail.com", body: "What's up? Long text to test resizing of the cell depending on amount of text")
 	]
 	
 	override func viewDidLoad() {
@@ -26,6 +26,8 @@ class ChatViewController: UIViewController {
 		tableView.dataSource = self
 		title = K.appName
 		navigationItem.hidesBackButton = true
+		
+		tableView.register(UINib(nibName: K.cellNibName, bundle: nil), forCellReuseIdentifier: K.cellIdentifier)
 	}
 	
 	@IBAction func sendPressed(_ sender: UIButton) {
@@ -52,8 +54,8 @@ extension ChatViewController: UITableViewDataSource {
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		let cell = tableView.dequeueReusableCell(withIdentifier: K.cellIdentifier, for: indexPath)
-		cell.textLabel?.text = messages[indexPath.row].body
+		let cell = tableView.dequeueReusableCell(withIdentifier: K.cellIdentifier, for: indexPath) as! MessageCell
+		cell.label.text = messages[indexPath.row].body
 		return cell
 	}
 	
